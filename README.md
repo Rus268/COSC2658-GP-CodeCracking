@@ -25,4 +25,14 @@ If a member gets zero points => that member gets zero for the whole group projec
 The contribution score must be agreed upon by all members. If there are disagreements, you must inform the lecturer/coordinator before the due time.
 The maximum score for the whole project is 35. If you get more than 35 (due to a high contribution score), the final score is 35.
 
-# Solution to the problem
+# Initial thinking
+* This seems to be similar to the bulls & cows algorithm or mastermind algorithm.
+* First we can create one letter string and run it to check how many hits did we received. Return the string with highest hit.
+* Split the string to two sub-strings. Run each sub-string throught the same process and return new substring that have the highest hit. Recursively split the sub string and repeat the process.
+* 
+* Psudo code idea:
+- Generate multiple strings with one letter select randomly from R, M, I, T.
+- Compare hit and take the highest value of hit.
+- Split the strings into smaller substring.
+- Generate new one letter string that does not contain the same letter and check for hit. Return highest hit.
+- Recursively call the function until string hit is the same as string lenght.
