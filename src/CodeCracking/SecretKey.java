@@ -13,15 +13,15 @@ public class SecretKey {
     // This function is to help give a number of guessked key
     public int guess(String guessedKey) {
         counter ++;
-        // validation
-        if (guessKey.length() != correctKey.length()) {
+        // validation the string lenght
+        if (guessedKey.length() != correctKey.length()) {
             return -1;
         }
 
         int matched = 0;
         for (int i = 0; i < guessedKey.length(); i++) {
             char c = guessedKey.charAt(i);
-            if ( c != "R" && c != "M" && c != "I" && c != "T") {
+            if (c != 'R' && c != 'M' && c != 'I' && c != 'T') {
                 return -1;
             }
             if (c == correctKey.charAt(i)){
@@ -35,6 +35,6 @@ public class SecretKey {
     }
 
     public static void main(String[] args) {
-        new SecretKeyGuesser().start()
+        new SecretKeyGuesser().start();
     }
 }
