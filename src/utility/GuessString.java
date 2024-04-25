@@ -6,17 +6,24 @@ public class GuessString {
      */
     private char[] guessOptions;
     private int guessLength = 16;
+    private boolean[] correctKey; // Record the correct character to reduce the number of guesses
 
     // Constructor
-    public GuessString() {guessOptions = new char[guessLength];}
+    public GuessString() {
+        guessOptions = new char[guessLength]; 
+        correctKey = new boolean[guessLength];
+    }
     public GuessString(int length) {
         guessLength = length;
         guessOptions = new char[guessLength];
+        correctKey = new boolean[guessLength];
     }
 
+    // Special constructor to create a guess string from a string
     public GuessString(String guess) {
         guessLength = guess.length();
         guessOptions = new char[guessLength];
+        correctKey = new boolean[guessLength];
         for (int i = 0; i < guessLength; i++) {
             guessOptions[i] = guess.charAt(i);
         }
@@ -57,6 +64,23 @@ public class GuessString {
         char temp = guessOptions[index1];
         guessOptions[index1] = guessOptions[index2];
         guessOptions[index2] = temp;
+    }
+
+    public boolean isCorrect(int index) {
+        return correctKey[index];
+    }
+
+    public void setCorrect(int index) {
+        correctKey[index] = true;
+    }
+
+    public int returnNextIncorrect(int index) {
+        for (int i = index + 1; i < guessLength; i++) {
+            if (!isCorrect(i)) {
+                return i;
+            }
+        }
+        return -1;
     }
 
 
