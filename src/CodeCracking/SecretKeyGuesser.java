@@ -48,8 +48,8 @@ public class SecretKeyGuesser {
 
         // Since we know the number of R, M, I, and T, we can generate a guess that has the same number of R, M, I, and T but likely in wrong positions
         GuessString guessKey = new GuessString(firstGuess(Rmatch, Mmatch, Imatch, Tmatch));
-        // System.out.println("Initial guess: " + guessKey.toString());
-        
+        System.out.println("Initial guess: " + guessKey.toString());
+
         int match = SecretKey.guess(guessKey.toString());
         int previousMatch = match;
         // Handle the case where the correct key is not found after 1000 iterations
@@ -98,20 +98,24 @@ public class SecretKeyGuesser {
     // Generate a initial guess
     public String firstGuess(int R, int M, int I, int T) {
         // Generate a string with certain number of R, M, I, and T
-        String guessKey = "";
-        for (int i = 0; i < R; i++) {
-            guessKey += "R";
+        // The order of the characters does not matter since we will be swapping the characters
+        // However we will space out the characters to increase the chance of finding the correct key
+        char[] guessKey = new char[16];
+        char[] options = {'R', 'M', 'I', 'T'};
+        int[] counts = {R, M, I, T};
+
+        for (int i = 0; i < guessKey.length; i++) {
+            int index;
+            // Generate a random index to assign the character
+            do {
+                index = (int) (Math.random() * 4);
+            } while (counts[index] == 0);
+
+            // Assign the character to the guessKey and decrement the count
+            guessKey[i] = options[index];
+            counts[index]--;
         }
-        for (int i = 0; i < M; i++) {
-            guessKey += "M";
-        }
-        for (int i = 0; i < I; i++) {
-            guessKey += "I";
-        }
-        for (int i = 0; i < T; i++) {
-            guessKey += "T";
-        }
-        return guessKey;
+        return new String(guessKey);
     }
 
     public static void main(String[] args) {

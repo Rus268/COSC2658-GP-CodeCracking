@@ -38,3 +38,6 @@ The contribution score must be agreed upon by all members. If there are disagree
 The maximum score for the whole project is 35. If you get more than 35 (due to a high contribution score), the final score is 35.
 
 # Solution to the problem
+1. Checking the edge case of repeated one string for each available characters R,M,I,T. This will also inform us which characters actual make up the code and it frequency
+2. Use this to create our first guess by randomly spread our letter. Since our guess will contain all correct characters we just need to find out the correct position.
+3. Use guess() method to check for our current number of match. 
