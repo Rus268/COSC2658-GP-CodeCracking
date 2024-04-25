@@ -1,4 +1,4 @@
-package src;
+package CodeCracking;
 
 public class SecretKey {
     private String correctKey;
@@ -21,6 +21,7 @@ public class SecretKey {
         int matched = 0;
         for (int i = 0; i < guessedKey.length(); i++) {
             char c = guessedKey.charAt(i);
+            // check if the string is outside of the possible characters
             if (c != 'R' && c != 'M' && c != 'I' && c != 'T') {
                 return -1;
             }
@@ -28,6 +29,7 @@ public class SecretKey {
                 matched++;
             }
         }
+        // Print out number of guesses when the correct key is found. 
         if (matched == correctKey.length()) {
             System.out.println("Number of guesses: "+ counter);
         }

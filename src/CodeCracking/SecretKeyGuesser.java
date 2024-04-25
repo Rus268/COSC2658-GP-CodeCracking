@@ -1,54 +1,55 @@
-package src;
+package CodeCracking;
+
+import utility.GuessString;
 
 public class SecretKeyGuesser {
     private SecretKey SecretKey;
-    private char[] guessOptions = {'R', 'M', 'I', 'T'}; // The possible characters in the secret key
+    private GuessString guessSet;
+    private char[] guessOptions = {'R', 'M', 'I', 'T'}; // All possible characters in the secret key
 
     public SecretKeyGuesser(){
         this.SecretKey = new SecretKey();
     }
 
-    public String start() {
-        //1. Initialize an array to store the frequency of each character ("R", "M", "I", "T")
-        for (int i = 0; i < 4; i++) {
-            int maxMatched =0;
-            String finalKey = "";
-            String guessKey = generateString(16, guessOptions[i]);
+    public void start() { 
+        int previousMatch = 0;
+        // Initial guess key with equal distribution of characters but the first 8 characters are locked down
+        String guessKey = "RMITRMITMITRMITR";
+
+        
+        while (true) {
+
             int matched = SecretKey.guess(guessKey);
-            // Consider edge case where the correct key is all the same character
+            // Break the loop when the correct key is found.
             if (matched == 16) {
-                return guessKey;
-            } else if (matched > maxMatched) {
-                maxMatched = matched;
-                finalKey = guessKey;
+                System.out.println("The correct key is: " + guessKey);
+                break;
+            } else if (matched > previousMatch) {
+                previousMatch = matched;
+                // Split the guessKey into two halves
+                guessKey = newGuess(guessKey, i, 0)
+                // Guess with the first half and the second half
+                // Update the guessKey based on which half had more matches
+            } else {
+                guessKey = updateGuess(guessKey, matched);
             }
         }
-        //2. Guess the secret key using 16 characters of the same type for each character type and update the frequency array.
-        //3. Find the character with the highest frequency and create a guessed key with this character.
-        //4. Partition the guessed key into two halves.
-        //5. Define a recursive function that:
-        //a. Takes a substring and the frequency array as input.
-        //b. If the length of the substring is 1, guess the key with the character that has a frequency of 1.
-        //c. If the length of the substring is greater than 1, partition the substring into two halves. For each half, find the character with the highest frequency and replace the characters in the half with this character. Then, recursively call the function on each half.
-        //6. Call the recursive function on each half of the guessed key.
-        //7. Continue this process until the correct secret key is found.
-        //8. Return the correct secret key.
-        }
     }
 
-    public void recursiveGuess(int i, int j, String guess) {
-        if 
-    }
-    //TODO: Implement the recursiveGuess function to recursively guess the secret key
-
-    public String generateString (int length, char c) {
-        String s = "";
-        for (int i = 0; i < length; i++) {
-            s += c;
-        }
-        return s;
+    // Generate a new guess that ensure 
+    // TODO: add check to ensure that the guessKey is not the same as the previous guessKey
+    public String newGuess(String guessKey, int i, int j) {
+        String subString = guessKey.substring(i, j);
+        String newGuess = "";
     }
 
-    public static void main(String[] args) {
+    // Generate a string with a specific character lock down
+    // TODO: add check to ensure that the guessKey is not the same as the previous guessKey
+    public String updateGuess(String guessKey, int match) {
+        // Update the guessKey based on the number of matches
+        // Lock down the characters that are correct
+        // 
+        // Randomly select characters for the remaining characters
+        return guessKey;
     }
 }
