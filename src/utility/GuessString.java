@@ -1,6 +1,9 @@
 package utility;
 
 public class GuessString {
+    /*
+     * This class is to help keep track of the correct characters in the secret key.
+     */
     private char[] guessOptions;
     private int guessLength = 16;
 
@@ -9,6 +12,14 @@ public class GuessString {
     public GuessString(int length) {
         guessLength = length;
         guessOptions = new char[guessLength];
+    }
+
+    public GuessString(String guess) {
+        guessLength = guess.length();
+        guessOptions = new char[guessLength];
+        for (int i = 0; i < guessLength; i++) {
+            guessOptions[i] = guess.charAt(i);
+        }
     }
 
     // Method to set a character at a specific index
@@ -41,6 +52,14 @@ public class GuessString {
         return new String(guessOptions);
     }
 
+    // Swap the characters at two indexes
+    public void swap(int index1, int index2) {
+        char temp = guessOptions[index1];
+        guessOptions[index1] = guessOptions[index2];
+        guessOptions[index2] = temp;
+    }
+
+
     public static void main(String[] args) {
         GuessString guessString = new GuessString(5);
         guessString.setCharacter(0, 'R');
@@ -52,5 +71,10 @@ public class GuessString {
         System.out.println(guessString.getCharacter(1)); //Return M
         System.out.println(guessString.isEmpty(0)); //Return false
         System.out.println(guessString.isEmpty(4)); //Return True
+        GuessString guessString2 = new GuessString("NewString");
+        System.out.println(guessString2.toString()); //Return NewString
+        guessString2.swap(0, 1);
+        System.out.println(guessString2.toString()); //Return eNwString
+
     }
 }

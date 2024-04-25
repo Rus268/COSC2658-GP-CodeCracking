@@ -3,53 +3,85 @@ package CodeCracking;
 import utility.GuessString;
 
 public class SecretKeyGuesser {
-    private SecretKey SecretKey;
-    private GuessString guessSet;
-    private char[] guessOptions = {'R', 'M', 'I', 'T'}; // All possible characters in the secret key
+    SecretKey SecretKey;
 
     public SecretKeyGuesser(){
         this.SecretKey = new SecretKey();
     }
 
-    public void start() { 
-        int previousMatch = 0;
-        // Initial guess key with equal distribution of characters but the first 8 characters are locked down
-        String guessKey = "RMITRMITMITRMITR";
+    public void start() {
+        // Initalise the initial guess to find the number of R, M, I, and T
+        // This should help us to reduce the frequency of guesses
+        String allRString = "R".repeat(16);
+        String allMString = "M".repeat(16);
+        String allIString = "I".repeat(16);
 
+        // Guess the string with all R to get the number of R
+        int Rmatch = SecretKey.guess(allRString);
+        if (Rmatch == 16) {
+            return;
+        }
+
+        // Guess the string with all M to get the number of M
+        int Mmatch = SecretKey.guess(allMString);
+        if (Mmatch == 16) {
+            return;
+        }
+
+        // Guess the string with all I to get the number of I
+        int Imatch = SecretKey.guess(allIString);
+        if (Imatch == 16) {
+            return;
+        }
+
+        // Minus the number of matches from the total number of characters to get the number of T
+        int Tmatch = 16 - Rmatch - Mmatch - Imatch;
+
+        // Since we know the number of R, M, I, and T, we can generate a guess that has the same number of R, M, I, and T but likely in wrong positions
+        GuessString guessKey = new GuessString(firstGuess(Rmatch, Mmatch, Imatch, Tmatch));
+        int match = SecretKey.guess(guessKey.toString());
+        int previousMatch = match;
         
-        while (true) {
-
-            int matched = SecretKey.guess(guessKey);
-            // Break the loop when the correct key is found.
-            if (matched == 16) {
-                System.out.println("The correct key is: " + guessKey);
-                break;
-            } else if (matched > previousMatch) {
-                previousMatch = matched;
-                // Split the guessKey into two halves
-                guessKey = newGuess(guessKey, i, 0)
-                // Guess with the first half and the second half
-                // Update the guessKey based on which half had more matches
-            } else {
-                guessKey = updateGuess(guessKey, matched);
+        // Loop through the guess string to find the correct key
+        for (int i = 0; i < 16; i++) {
+            // Guess the string to reveal the number of correct characters
+            // If the number of correct characters is 16, then the correct key is found
+            // Since all the characters are correct we just need to focus on shifting the characters to the correct position
+            for (int j = i + 1; j < 16; j++) {
+                guessKey.swap(i, j);
+                match = SecretKey.guess(guessKey.toString());
+                if (match == 16) {
+                    System.out.println("The correct key is: " + guessKey.toString());
+                    return;
+                }
+                // If the number of correct characters increases, then we need to update the guessOption since this is the correct character
+                // If the number of correct characters is decreate then the previous guess was correct and we need to shift the characters back and record the correct character
+                if (match > previousMatch) {
+                    previousMatch = match;
+                } else {
+                    guessKey.swap(i, j);
+                    previousMatch = match;
+                }
             }
         }
     }
 
-    // Generate a new guess that ensure 
-    // TODO: add check to ensure that the guessKey is not the same as the previous guessKey
-    public String newGuess(String guessKey, int i, int j) {
-        String subString = guessKey.substring(i, j);
-        String newGuess = "";
-    }
-
-    // Generate a string with a specific character lock down
-    // TODO: add check to ensure that the guessKey is not the same as the previous guessKey
-    public String updateGuess(String guessKey, int match) {
-        // Update the guessKey based on the number of matches
-        // Lock down the characters that are correct
-        // 
-        // Randomly select characters for the remaining characters
+    // Generate a initial guess
+    public String firstGuess(int R, int M, int I, int T) {
+        // Generate a string with certain number of R, M, I, and T
+        String guessKey = "";
+        for (int i = 0; i < R; i++) {
+            guessKey += "R";
+        }
+        for (int i = 0; i < M; i++) {
+            guessKey += "M";
+        }
+        for (int i = 0; i < I; i++) {
+            guessKey += "I";
+        }
+        for (int i = 0; i < T; i++) {
+            guessKey += "T";
+        }
         return guessKey;
     }
 }
