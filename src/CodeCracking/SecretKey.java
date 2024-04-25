@@ -6,7 +6,14 @@ public class SecretKey {
 
     public SecretKey() {
         // For the real test, this is not know
-        correctKey =  "RRRRRRRRRMITRMIT";
+        // Adding additional test cases to test the code
+        // correctKey =  "RRRRRRRRRMITRMIT";
+        // correctKey =  "RRRRRRRRRMITRMMT";
+        // correctKey =  "RRRIIRRRRMITRMIT";
+        // correctKey =  "RRRRRRRRRRRRRRRR";
+        // correctKey =  "RMITRMITRMITRMIT";
+        // correctKey =  "RMITMITRMITRMITR";
+        correctKey =  "TMTMTMTMTMTMTMTM";
         counter  = 0;
     }
 
