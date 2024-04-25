@@ -39,5 +39,6 @@ The maximum score for the whole project is 35. If you get more than 35 (due to a
 
 # Solution to the problem
 1. Checking the edge case of repeated one string for each available characters R,M,I,T. This will also inform us which characters actual make up the code and it frequency
-2. Use this to create our first guess by randomly spread our letter. Since our guess will contain all correct characters we just need to find out the correct position.
-3. Use guess() method to check for our current number of match. 
+2. Use this to create our first guess by randomly spread our letter to increase the likely hood of being closer to the correct key. Since our guess will contain all correct characters we just need to find out the correct position.
+3. Use guess() method to check for our current number of match and move accordingly.
+4. We proceed to swap the characters in the key, if it increase or decrease we will lock down the position (if the increase is by 2 we know the )

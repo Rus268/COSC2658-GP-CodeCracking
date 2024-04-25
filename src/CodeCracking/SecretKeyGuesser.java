@@ -85,6 +85,17 @@ public class SecretKeyGuesser {
                             guessKey.setCorrect(j);
                         }
                         previousMatch = match;  // Update the previous match to keep track of the number of correct characters
+                    } else if (match < previousMatch) {
+                        guessKey.swap(i, j);
+                        match = SecretKey.guess(guessKey.toString());
+                        previousMatch = match;
+                        if (match > previousMatch) {
+                            guessKey.setCorrect(i);
+                            if (match - previousMatch == 2) {
+                                guessKey.setCorrect(j);
+                            }
+                            previousMatch = match;
+                        }
                     } else {
                         guessKey.swap(i, j);
                     }
@@ -106,7 +117,7 @@ public class SecretKeyGuesser {
 
         for (int i = 0; i < guessKey.length; i++) {
             int index;
-            // Generate a random index to assign the character
+            // Generate a random index to assign the character this is to avoid any bias in the guess and to increase the chance of finding the correct key
             do {
                 index = (int) (Math.random() * 4);
             } while (counts[index] == 0);
